@@ -8,11 +8,14 @@ const app = (req, res) => {
         req.body = postData;
 
         // 处理blog的路由
-        const blogData = handleBlogRouter(req, res);
-        if (blogData) {
-            res.end(JSON.stringify(blogData));
+        const blogDataResult = handleBlogRouter(req, res);
+        if (blogDataResult) {
+            blogDataResult.then(result => {
+                res.end(JSON.stringify(result));
+            })
             return;
         }
+
 
         // 处理user的路由
         const userData = handleUserRouter(req, res);
