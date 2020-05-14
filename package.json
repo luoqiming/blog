@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "cross-env NODE_ENV=dev node server.js",
-    "pro": "cross-env NODE_ENV=production node server.js"
+    "dev": "cross-env NODE_ENV=dev nodemon ./server.js",
+    "pro": "cross-env NODE_ENV=production nodemonn ./server.js"
   },
   "author": "lqm",
   "license": "ISC",

@@ -17,32 +17,52 @@ const handleList = (author, keyword) => {
 
 
 const handleDetail = (id) => {
-    return {
-        id: 1,
-        title: "标题1",
-        content: "dsdassa",
-        createTime: 1546610491112,
-        author: "lqm"
-    }
-
+    let sql = `select * from blogs where 1=1 and id=${id}`;
+    return exet(sql);
 }
 
 
 const handleNewBlog = (blogData) => {
-    return {
-        id: 5
+    const { title, content } = blogData;
+    if ((title !== "" && title !== undefined) && (content !== "" && content !== undefined)) {
+        const author = "lqm";
+        const createtime = Date.now();
+        let sql = `insert into blogs (title,content,author,createtime) values('${title}','${content}','${author}',${createtime})`
+        return exet(sql);
     }
+    return new Promise((resolve, reject) => {
+        reject("标题或者内容不能为空！");
+    })
 
 }
 
 
-const handleUpdateBlog = (id, blogData) => {
-    return true;
+const handleUpdateBlog = (blogData) => {
+    const { id, title, content } = blogData;
+    if (id !== "" && id !== undefined) {
+        if ((title !== "" && title !== undefined) && (content !== "" && content !== undefined)) {
+            let sql = `update blogs set title='${title}',content='${content}' where id=${id}`;
+            return exet(sql);
+        }
+        return new Promise((resolve, reject) => {
+            reject("标题或者内容不能为空！");
+        })
+    }
+    return new Promise((reslove, reject) => {
+        reject("id不能为空！");
+    })
 }
 
 
-const handleDelBlog = (id) => {
-    return true;
+const handleDelBlog = (data) => {
+    const { id } = data;
+    if (id !== "" && id !== undefined) {
+        let sql = `delete from blogs where id=${id}`;
+        return exet(sql);
+    }
+    return new Promise((reslove, reject) => {
+        reject("id不能为空！");
+    })
 }
 
 

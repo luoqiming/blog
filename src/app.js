@@ -20,7 +20,9 @@ const app = (req, res) => {
         // 处理user的路由
         const userData = handleUserRouter(req, res);
         if (userData) {
-            res.end(JSON.stringify(userData));
+            userData.then(result => {
+                res.end(JSON.stringify(result));
+            })
             return;
         }
 

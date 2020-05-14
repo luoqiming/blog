@@ -1,10 +1,12 @@
+const exet = require("../mysql/mysql")
 const handleLogin = (name, pwd) => {
-    if (name === "lqm" && pwd === "123456") {
-        return true
+    if (name !== "" && name !== undefined && pwd !== "" && pwd !== undefined) {
+        let sql = `select password from users where username='${name}'`;
+        return exet(sql);
     }
-    else{
-        return false;
-    }
+    return new Promise((resolve, reject) => {
+        reject("账号或者密码不能为空！")
+    })
 }
 
 

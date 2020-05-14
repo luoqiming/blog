@@ -25,47 +25,56 @@ const handleBlogRouter = (req, res) => {
 
     // 获取博客详情
     if (path === "/api/blog/detail" && method === "GET") {
-        const id = query.id;
-        const data = handleDetail(id);
-        return new successModel("成功", data);
+        const id = query.id || 1;
+        const result = handleDetail(id);
+        return result.then(res => {
+            return new successModel("成功", res[0]);
+        })
+
     }
 
 
     // 新建博客
     if (path === "/api/blog/new" && method === "POST") {
         const blogData = req.body;
-        const data = handleNewBlog(blogData);
-        return new successModel("成功", data);
+        const result = handleNewBlog(blogData);
+        return result.then(res => {
+            return new successModel("成功", { id: res.insertId });
+        }).catch(e => {
+            return new errorModel("失败", e);
+        })
     }
 
 
     // 更新一篇博客
     if (path === "/api/blog/update" && method === "POST") {
-        const id = req.body.id;
-        const blogData = req.body.blogData;
-        const res = handleUpdateBlog(id, blogData);
-        if (res) {
+        const blogData = req.body;
+        const result = handleUpdateBlog(blogData);
+        return result.then(res => {
             return new successModel("成功", res);
-        }
-        else {
-            return new errorModel("失败", res);
-        }
+        }).catch(e => {
+            return new errorModel("失败", e);
+        })
+
     }
+
 
     // 删除一篇博客
     if (path === "/api/blog/del" && method === "POST") {
-        const id = req.body.id;
-        const res = handleDelBlog(id);
-        if (res) {
+        const data = req.body;
+        const result = handleDelBlog(data);
+        return result.then(res => {
             return new successModel("成功", res);
-        }
-        else {
-            return new errorModel("失败", res);
-        }
+        }).catch(e => {
+            return new errorModel("失败", e);
+        })
+
     }
-
-
 }
+
+
+
+
 
 
 module.exports = handleBlogRouter;
